@@ -1,0 +1,10 @@
+﻿import { test, expect } from 'bun:test';
+import { PaddleGame } from '../src/scripts/paddle';
+test('paddle stays within board for keyboard and pointer targets',()=>{const g=new PaddleGame('pong');g.target=-100;g.step(1/120);expect(g.paddle).toBe(40);g.target=900;g.step(1/120);expect(g.paddle).toBe(360);g.step(1/120,1);expect(g.paddle).toBe(360);});
+test('player paddle reflects a downward ball',()=>{const g=new PaddleGame('pong');g.ball={x:200,y:355,vx:0,vy:200};g.step(1/120);expect(g.ball.vy).toBeLessThan(0);expect(g.hits).toBe(1);});
+test('wall bounce keeps ball inside arena',()=>{const g=new PaddleGame('pong');g.ball={x:393,y:170,vx:200,vy:-100};g.step(1/120);expect(g.ball.x).toBe(394);expect(g.ball.vx).toBeLessThan(0);});
+test('pong scores at top and wins at seven',()=>{const g=new PaddleGame('pong');g.score=6;g.ball={x:20,y:-5,vx:0,vy:-200};g.step(1/120);expect(g.score).toBe(7);expect(g.won).toBe(true);expect(g.over).toBe(true);});
+test('three misses end either paddle game',()=>{for(const mode of ['pong','breakout'] as const){const g=new PaddleGame(mode);for(let i=0;i<3;i++){g.ball={x:10,y:405,vx:0,vy:200};g.step(1/120);}expect(g.lives).toBe(0);expect(g.over).toBe(true);expect(g.won).toBe(false);}});
+test('breakout removes hit brick and reflects ball',()=>{const g=new PaddleGame('breakout');g.ball={x:30,y:33,vx:0,vy:200};g.step(1/120);expect(g.bricks[0].alive).toBe(false);expect(g.score).toBe(1);expect(g.ball.vy).toBeLessThan(0);});
+test('clearing last brick wins breakout',()=>{const g=new PaddleGame('breakout');g.bricks.forEach((b,i)=>b.alive=i===0);g.ball={x:30,y:33,vx:0,vy:200};g.step(1/120);expect(g.won).toBe(true);expect(g.over).toBe(true);});
+test('finished game does not advance',()=>{const g=new PaddleGame('pong');g.over=true;const before={...g.ball};g.step(1/120);expect(g.ball).toEqual(before);});

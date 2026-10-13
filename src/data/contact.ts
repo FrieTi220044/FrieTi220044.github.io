@@ -1,2 +1,13 @@
-﻿export const contact: { label: string; url: string }[] = [];
-// Add your email or profiles here, e.g. { label: 'Email', url: 'mailto:...' }.
+﻿export const contact = [
+  {
+    label: "GitHub",
+    value: "FrieTi220044",
+    url: "https://github.com/FrieTi220044",
+  },
+  { label: "Discord", value: "frisi", copy: true },
+  {
+    label: "Email",
+    value: "contact@frisi.net",
+    url: "mailto:contact@frisi.net",
+  },
+];
