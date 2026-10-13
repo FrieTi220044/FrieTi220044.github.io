@@ -1,49 +1,254 @@
----
-import BaseHead from '../components/BaseHead.astro';
-import Footer from '../components/Footer.astro';
-import Header from '../components/Header.astro';
-import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+﻿---
+import "../styles/portfolio.css";
+import { projects } from "../data/projects";
+import { contact } from "../data/contact";
 ---
 
 <!doctype html>
 <html lang="en">
-	<head>
-		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-	</head>
-	<body>
-		<Header />
-		<main>
-			<h1>🧑‍🚀 Hello, Astronaut!</h1>
-			<p>
-				Welcome to the official <a href="https://astro.build/">Astro</a> blog starter template. This template
-				serves as a lightweight, minimally-styled starting point for anyone looking to build a personal
-				website, blog, or portfolio with Astro.
-			</p>
-			<p>
-				This template comes with a few integrations already configured in your
-				<code>astro.config.mjs</code> file. You can customize your setup with
-				<a href="https://astro.build/integrations">Astro Integrations</a> to add tools like Tailwind,
-				React, or Vue to your project.
-			</p>
-			<p>Here are a few ideas on how to get started with the template:</p>
-			<ul>
-				<li>Edit this page in <code>src/pages/index.astro</code></li>
-				<li>Edit the site header items in <code>src/components/Header.astro</code></li>
-				<li>Add your name to the footer in <code>src/components/Footer.astro</code></li>
-				<li>Check out the included blog posts in <code>src/content/blog/</code></li>
-				<li>Customize the blog post page layout in <code>src/layouts/BlogPost.astro</code></li>
-			</ul>
-			<p>
-				Have fun! If you get stuck, remember to
-				<a href="https://docs.astro.build/">read the docs</a>
-				or <a href="https://astro.build/chat">join us on Discord</a> to ask questions.
-			</p>
-			<p>
-				Looking for a blog template with a bit more personality? Check out
-				<a href="https://github.com/Charca/astro-blog-template">astro-blog-template</a>
-				by <a href="https://twitter.com/Charca">Maxi Ferreira</a>.
-			</p>
-		</main>
-		<Footer />
-	</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta
+      name="description"
+      content="Projects, software, and a small game of Snake."
+    />
+    <meta name="theme-color" content="#11151e" />
+    <title>Portfolio — Projects & play</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  </head>
+  <body>
+    <a class="skip" href="#projects">
+      Skip to projects
+    </a>
+    <div class="site">
+      <header id="top">
+        <a class="brand" href="#top">
+          <span class="brand-icon" aria-hidden="true">
+            ⌘
+          </span>{" "}
+          Portfolio
+        </a>
+        <nav aria-label="Main navigation">
+          <a href="#projects">Projects</a>
+          <a href="#arcade">Play</a>
+          <button data-connect>
+            Contact <span>↗</span>
+          </button>
+        </nav>
+      </header>
+      <main>
+        <section class="intro" aria-labelledby="title">
+          <div class="intro-copy">
+            <span class="eyebrow">
+              <span></span> PROJECTS / SOFTWARE / A LITTLE FUN
+            </span>
+            <h1>
+              A few things
+              <br />
+              I've{" "}
+              <span class="built">
+                built
+                <svg viewBox="0 0 270 22" aria-hidden="true">
+                  <path d="M4 14Q125 0 263 10M17 20Q133 9 239 17" />
+                </svg>
+              </span>
+              <span class="period">.</span>
+            </h1>
+            <p>
+              Projects live here.
+              <br />
+              You're welcome to stay for a game.
+            </p>
+            <a class="work-link" href="#projects">
+              See the projects <span>↗</span>
+            </a>
+            <div class="intro-footnote">
+              <span class="tiny-arrow" aria-hidden="true">
+                ↳
+              </span>{" "}
+              Or beat your high score over there.
+            </div>
+          </div>
+          <div class="arcade-wrap" id="arcade">
+            <div class="console">
+              <div class="console-top">
+                <span class="console-brand">
+                  <span aria-hidden="true">▥</span> SNAKE
+                </span>
+                <span class="console-edition">POCKET EDITION / 01</span>
+                <span class="power-light" aria-hidden="true"></span>
+              </div>
+              <div class="screen-frame">
+                <div class="scoreboard">
+                  <span>
+                    SCORE <b id="score">00</b>
+                  </span>
+                  <span>
+                    BEST <b id="best">00</b>
+                  </span>
+                </div>
+                <div
+                  class="board"
+                  id="board"
+                  tabindex="0"
+                  role="group"
+                  aria-label="Snake game. Use arrow keys or WASD to move, space to pause."
+                  aria-describedby="game-help"
+                >
+                  <canvas
+                    width="400"
+                    height="400"
+                    id="snake-canvas"
+                    aria-label="Snake game board"
+                  ></canvas>
+                  <div class="game-overlay" id="game-overlay">
+                    <span class="game-symbol" aria-hidden="true">
+                      ⌁
+                    </span>
+                    <h2 id="game-title">One quick game?</h2>
+                    <p id="game-message">The original time well wasted.</p>
+                    <button id="start-game">
+                      Play Snake <span>↗</span>
+                    </button>
+                  </div>
+                </div>
+                <div class="screen-bottom">
+                  <span id="game-status" role="status" aria-live="polite">
+                    READY WHEN YOU ARE
+                  </span>
+                  <span aria-hidden="true">● ● ●</span>
+                </div>
+              </div>
+              <div class="console-controls">
+                <div class="dpad" role="group" aria-label="Snake direction">
+                  <button data-direction="up" aria-label="Move up">
+                    ↑
+                  </button>
+                  <button data-direction="left" aria-label="Move left">
+                    ←
+                  </button>
+                  <span aria-hidden="true"></span>
+                  <button data-direction="right" aria-label="Move right">
+                    →
+                  </button>
+                  <button data-direction="down" aria-label="Move down">
+                    ↓
+                  </button>
+                </div>
+                <div class="game-options">
+                  <button id="pause-game" disabled>
+                    Pause <span>Ⅱ</span>
+                  </button>
+                  <button id="reset-game">
+                    Reset <span>↺</span>
+                  </button>
+                </div>
+                <div class="speaker" aria-hidden="true">
+                  <i></i>
+                  <i></i>
+                  <i></i>
+                  <i></i>
+                </div>
+              </div>
+              <div class="console-bottom">
+                <span id="game-help">
+                  ARROWS / WASD TO MOVE · SPACE TO PAUSE
+                </span>
+                <span>✳</span>
+              </div>
+            </div>
+            <span class="console-shadow" aria-hidden="true"></span>
+          </div>
+        </section>
+        <section id="projects" aria-labelledby="projects-title">
+          <div class="section-heading">
+            <div>
+              <span class="eyebrow">THE PROJECTS</span>
+              <h2 id="projects-title">
+                On the workbench<span>.</span>
+              </h2>
+            </div>
+            <span class="content-note">Placeholder content for now</span>
+          </div>
+          <div class="projects">
+            {projects.map((project, index) => (
+              <details class="project">
+                <summary>
+                  <span class="project-number">0{index + 1}</span>
+                  <span class="project-thumb" aria-hidden="true">
+                    {["⌘", "{ }", "↗"][index % 3]}
+                  </span>
+                  <span class="project-name">
+                    <span>{project.title}</span>
+                    <small>
+                      {project.placeholder
+                        ? "Details to be added"
+                        : project.tags.join(" / ")}
+                    </small>
+                  </span>
+                  <span class="project-type">
+                    {project.placeholder ? "Placeholder" : "View details"}
+                  </span>
+                  <span class="project-expand" aria-hidden="true">
+                    +
+                  </span>
+                </summary>
+                <div class="project-body">
+                  {project.image && (
+                    <img
+                      src={project.image}
+                      alt={project.imageAlt || project.title}
+                      width="800"
+                      height="500"
+                      loading="lazy"
+                    />
+                  )}
+                  <p>{project.description}</p>
+                  <div class="project-links">
+                    {project.source && (
+                      <a href={project.source}>Source code ↗</a>
+                    )}
+                    {project.demo && <a href={project.demo}>Live demo ↗</a>}
+                  </div>
+                </div>
+              </details>
+            ))}
+          </div>
+        </section>
+      </main>
+      <footer>
+        <a class="brand" href="#top">
+          <span class="brand-icon" aria-hidden="true">
+            ⌘
+          </span>{" "}
+          Portfolio
+        </a>
+        <span>Built with Astro. Played with arrow keys.</span>
+        <button data-connect>Get in touch ↗</button>
+      </footer>
+    </div>
+    <dialog id="contact-dialog" aria-labelledby="contact-title">
+      <div class="dialog-top">
+        <span>CONTACT</span>
+        <button id="close-contact" aria-label="Close contact panel">
+          ✕
+        </button>
+      </div>
+      <h2 id="contact-title">Get in touch.</h2>
+      {contact.length ? (
+        <div class="contact-links">
+          {contact.map((link) => (
+            <a href={link.url}>
+              {link.label}
+              <span>↗</span>
+            </a>
+          ))}
+        </div>
+      ) : (
+        <p>Contact links haven’t been added yet.</p>
+      )}
+    </dialog>
+    <script src="../scripts/portfolio.ts"></script>
+  </body>
 </html>
